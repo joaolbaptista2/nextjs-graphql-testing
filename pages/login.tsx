@@ -5,10 +5,11 @@ import { useLoginMutation, MeQuery } from '../generated/apolloComponents'
 import Router from 'next/router'
 import { meQuery } from '../graphql/user/queries/me'
 
-export default () => {
+const Login = () => {
   const [loginMutation] = useLoginMutation()
   return (
     <Formik onSubmit={async data => {
+      console.log(data)
       const response = await loginMutation({
         variables: data,
         update: (cache, {data}) => {
@@ -50,3 +51,5 @@ export default () => {
   )
 
 }
+
+export default Login
