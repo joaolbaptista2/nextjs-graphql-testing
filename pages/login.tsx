@@ -7,7 +7,6 @@ import { meQuery } from '../graphql/user/queries/me'
 
 const Login = () => {
   const [loginMutation] = useLoginMutation()
-  console.log(12312)
   return (
     <Formik onSubmit={async data => {
       console.log(data)
@@ -34,13 +33,15 @@ const Login = () => {
       email: '',
       password: ''
     }}>
-      {({ handleSubmit  }) => <form onSubmit={handleSubmit}>
+      {({ handleSubmit  }) => <form data-testid="login-form" onSubmit={handleSubmit}>
         <Field
+          data-testid="email-input"
           name="email"
           placeholder="email"
           component={InputField}
         />
         <Field
+          data-testid="password-input"
           name="password"
           placeholder="password"
           component={InputField}
