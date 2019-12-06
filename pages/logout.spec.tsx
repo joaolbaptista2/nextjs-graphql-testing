@@ -41,7 +41,6 @@ describe('<Logout />', () => {
         })),
       },
     ]
-    const logoutMockResult = mocks[0].newData;
     await renderer.create(
       <MockedProvider mocks={mocks} addTypename={false}>
         <Logout />

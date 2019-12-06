@@ -7,6 +7,7 @@ import { meQuery } from '../graphql/user/queries/me'
 
 const Login = () => {
   const [loginMutation] = useLoginMutation()
+  console.log(12312)
   return (
     <Formik onSubmit={async data => {
       console.log(data)

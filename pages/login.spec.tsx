@@ -1,24 +1,34 @@
 import React from 'react'
-import renderer, { act } from 'react-test-renderer'
+// import renderer from 'react-test-renderer'
 import Login from './login'
-import { MockedProvider } from '@apollo/react-testing'
-import { loginMutation } from '../graphql/user/mutations/login'
-import { render } from 'react-dom'
+import { shallow, mount } from 'enzyme'
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import { MockedProvider } from '@apollo/react-testing';
+import { loginMutation } from '../graphql/user/mutations/login';
 
-const tree = renderer.create(
-  <MockedProvider mocks={[]} addTypename={false}>
-    <Login />
-  </MockedProvider>
 
+configure({ adapter: new Adapter() });
+jest.mock('../pages/login.tsx')
+// const tree = renderer.create(
+//   <MockedProvider mocks={[]} addTypename={false}>
+//     <Login />
+//   </MockedProvider>
+// )
+
+let wrapper = shallow(
+ <MockedProvider mocks={[]} addTypename={false}>
+   <Login/>
+ </MockedProvider>
 )
 
 describe('Login Component', () => {
   it('should not regress', () => {
-
-    expect(tree.toJSON).toMatchSnapshot()
+    expect(wrapper).toMatchSnapshot()
   })
 
-  it('should return user on Login', async () => {
+  // Enzyme
+  it('should add the correct login data on Submit click', async() => {
     const mocks = [
       {
         request: {
@@ -41,9 +51,30 @@ describe('Login Component', () => {
         }
       }
     ]
-    const form = tree.root.findByType('form');
-    const email = tree.root.findByProps({name: 'email'})
-    form.props.onSubmit()
+    const component = await shallow(
+      <MockedProvider mocks={mocks} addTypename={false}>
+       <Login />
+     </MockedProvider>
+    )
+    // const form = await component.find('Login')
+    
+    
+  })
+
+    //test renderer
+  it('should return user on Login', async () => {
+  //   const component = await renderer.create(
+  //     <MockedProvider mocks={mocks} addTypename={false}>
+  //       <Login />
+  //     </MockedProvider>
+  //   )
+
+  //   const form = component.root.findByType('form');
+  //   const emailField = tree.root.findByProps({name: 'email'})
+    // emailField.value = 'joao@ustwo.com'
+  //   console.log(emailField.props.component(emailField))
+
+    // form.props.onSubmit()
 
   })
 })
